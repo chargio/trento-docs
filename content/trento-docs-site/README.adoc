@@ -6,7 +6,7 @@ It builds the docs hub from the documentation maintained in this repository toge
 The Antora content assembly is controlled by two main files:
 
 * link:https://github.com/trento-project/docs/blob/main/trento-docs-site/antora.yml[`trento-docs-site/antora.yml`] defines how local and fetched documentation is scanned into Antora modules
-* link:https://github.com/trento-project/docs/blob/main/trento-docs-site/antora-playbook.yml[`trento-docs-site/antora-playbook.yml`] selects the local branches to build and the UI bundle to use
+* link:https://github.com/trento-project/docs/blob/main/trento-docs-site/antora-playbook.yml[`trento-docs-site/antora-playbook.yml`] selects the local branches to build, the default UI bundle, and the Trento supplemental UI files
 
 Examples of fetched component repositories include:
 
@@ -51,12 +51,6 @@ npx antora antora-playbook.yml
 The build fetches documentation from the upstream repositories defined in `antora.yml`, so network access is required.
 
 This generates the site into `./build/trento-docs-site-public`.
-
-[IMPORTANT]
-====
-This build consumes `trento-docs-site-ui/build/ui-bundle.zip`.
-If you changed the UI sources in `trento-docs-site-ui/`, rebuild the UI bundle first or your docs hub preview will still use the previous bundle.
-====
 
 === 4. Preview Locally
 

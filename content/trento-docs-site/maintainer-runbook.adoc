@@ -39,8 +39,8 @@ Use this section to decide what a change affects and what to verify.
   Verify: docs hub preview, component navigation, images, and `Edit this page` links.
 * `trento-docs-site/` - Antora assembly logic, scripts, and extensions
   Verify: docs hub preview, generated artifacts under `trento-docs-site/build/`, and `npm test` when extension logic changes.
-* `trento-docs-site-ui/` - custom UI bundle
-  Verify: `npx gulp preview`, rebuild the bundle with `npx gulp bundle`, and commit the updated `build/ui-bundle.zip`.
+* `trento-docs-site/supplemental-ui/` - Trento customizations of the Antora default UI
+  Verify: docs hub preview at desktop and mobile widths.
 * `.github/workflows/` - validation and publication behavior
   Verify: workflow intent against `CI and Publishing Overview`, and update the docs when workflow behavior changes.
 
@@ -62,7 +62,8 @@ Then confirm that the fetched component documentation appears correctly in the d
 
 === Update UI behavior
 
-Edit `trento-docs-site-ui/`, preview with `npx gulp preview`, rebuild the bundle with `npx gulp bundle`, and commit the regenerated `build/ui-bundle.zip`.
+Edit `trento-docs-site/supplemental-ui/` and preview the docs hub.
+See xref:trento-docs-site-ui/README.adoc[Antora Documentation Site UI] for how the overrides work.
 
 === Update site assembly logic
 
@@ -78,7 +79,7 @@ Use this quick guide when you know what kind of change you are making:
 
 * content-only docs hub change: preview with `docker compose up trento-docs`
 * user-facing documentation change: preview both the docs hub and the SUSE output
-* UI-only change: use `npx gulp preview`, then rebuild `build/ui-bundle.zip` with `npx gulp bundle`
+* UI-only change: preview with `docker compose up trento-docs`
 * Antora assembly logic change: preview the docs hub and inspect generated files under `trento-docs-site/build/`
 * workflow/config change: compare the workflow behavior with `CI and Publishing Overview`
 
@@ -117,9 +118,8 @@ Check:
 
 Check:
 
-* whether `npx gulp bundle` was run
-* whether `trento-docs-site-ui/build/ui-bundle.zip` was committed
-* whether the site build is using the updated bundle
+* whether the file is under `trento-docs-site/supplemental-ui/` with the same path as the file it replaces in the default UI
+* for styles, whether the rule in `css/trento.css` uses the same selector as the default `site.css`, so it wins by order
 
 === A `trento/` change looks correct in the docs hub but wrong in the SUSE output
 
@@ -144,7 +144,7 @@ When the documentation system changes, update the documents that describe it:
 
 * update `README.adoc` when the repository structure, editing model, preview commands, or published outputs change
 * update `content/trento-docs-site/README.adoc` when the Antora site assembly workflow changes
-* update `content/trento-docs-site-ui/README.adoc` when the UI bundle workflow changes
+* update `content/trento-docs-site-ui/README.adoc` when the UI customization workflow changes
 * update `CI and Publishing Overview` when workflow behavior changes
 * update `Documentation Build Pipeline Overview` when collector, script, or assembly behavior changes
 * update `Edit URL Extension Workflow` when the edit URL rules change

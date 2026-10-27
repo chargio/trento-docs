@@ -15,8 +15,7 @@ It brings together multiple documentation sources and publishes them to the link
 
 ==== Build, UI, and Publishing Tooling
 
-* link:https://github.com/trento-project/docs/tree/main/trento-docs-site[`trento-docs-site`] - Antora playbook, extensions, and site build logic
-* link:https://github.com/trento-project/docs/tree/main/trento-docs-site-ui[`trento-docs-site-ui`] - custom Antora UI bundle
+* link:https://github.com/trento-project/docs/tree/main/trento-docs-site[`trento-docs-site`] - Antora playbook, extensions, site build logic, and the Trento UI customizations in `supplemental-ui/`
 * link:https://github.com/trento-project/docs/tree/main/.github/workflows[`.github/workflows`] - CI and publishing workflows for documentation validation and site builds
 
 === How This Repository Works
@@ -28,7 +27,7 @@ This repository assembles documentation from three sources:
 * upstream Trento component repositories provide additional documentation for the docs hub
 
 The Antora playbook and extensions in `trento-docs-site/` assemble the docs hub from these sources.
-The custom UI is maintained in `trento-docs-site-ui/`.
+The site uses the Antora default UI with the Trento customizations from `trento-docs-site/supplemental-ui/` applied on top.
 The CI for the user-facing documentation intentionally mirrors link:https://github.com/SUSE/doc-unversioned[SUSE/doc-unversioned] with small Trento-specific adjustments, which keeps `trento/` compatible with both the docs hub build and the SUSE documentation toolchain.
 
 == Documentation Sources
@@ -123,12 +122,6 @@ The generated HTML is in `trento-docs-site/build/trento-docs-site-public`.
 [NOTE]
 ====
 If you are working only in `trento-docs-site/`, you can use the manual Antora workflow described in xref:trento-docs-site/README.adoc[Antora Documentation Site].
-====
-
-[IMPORTANT]
-====
-Docs hub previews consume `trento-docs-site-ui/build/ui-bundle.zip`.
-If you changed UI sources in `trento-docs-site-ui/`, rebuild the UI bundle first or the docs hub preview will still use the previous bundle.
 ====
 
 === Preview SUSE documentation
