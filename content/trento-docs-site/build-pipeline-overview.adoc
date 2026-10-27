@@ -1,6 +1,6 @@
 = Documentation Build Pipeline Overview
 
-This document explains how the Trento docs hub is assembled from local sources, fetched component documentation, generated metadata, and the custom UI bundle.
+This document explains how the Trento docs hub is assembled from local sources, fetched component documentation, generated metadata, and the Trento UI customizations.
 It focuses on site assembly mechanics.
 For local preview commands, see the root `README.adoc` or xref:trento-docs-site/README.adoc[Antora Documentation Site].
 
@@ -12,7 +12,7 @@ The docs hub build is driven by:
 * `trento-docs-site/antora.yml`
 * `trento-docs-site/extensions/`
 * `trento-docs-site/scripts/`
-* `trento-docs-site-ui/build/ui-bundle.zip`
+* `trento-docs-site/supplemental-ui/`
 
 The output of the build is written to `trento-docs-site/build/trento-docs-site-public`.
 
@@ -24,7 +24,8 @@ The Antora build combines three kinds of documentation sources:
 * `content/` - project documentation maintained in this repository
 * upstream Trento repositories - component documentation fetched during the build
 
-The UI for the rendered site is loaded from `trento-docs-site-ui/build/ui-bundle.zip`.
+The UI for the rendered site is the latest stable https://gitlab.com/antora/antora-ui-default[Antora default UI], downloaded during the build, with the files from `trento-docs-site/supplemental-ui/` applied on top.
+See xref:trento-docs-site-ui/README.adoc[Antora Documentation Site UI].
 
 == Build Flow
 
@@ -37,10 +38,11 @@ The high-level build flow is:
 . `trento-docs-site/scripts/generate-components.nav.js` scans the fetched component repositories and generates `trento-docs-site/build/gen_navigation/nav_components.adoc`.
 . The generated navigation file is scanned into `modules/developer/partials`, where it is included by the developer navigation.
 . User-facing documentation from `trento/adoc/` and `trento/images/src/` is scanned into the `user-guide` module.
+  Partials under `trento/adoc/partials/` are scanned too, so that relative includes resolve, but they are not published as pages.
 . `trento-docs-site/scripts/generate-attributes-yaml.sh` converts `trento/adoc/generic-attributes.adoc` into an Antora attributes file under `trento-docs-site/build/adoc_variables/user-guide/`.
 . The root `README.adoc` and documentation under `content/` are scanned into the developer module.
 . The fetched upstream component repositories are scanned into per-component Antora modules such as `agent`, `web`, `mcp-server`, and `wanda`.
-. Antora applies the configured extensions and renders the site with the custom UI bundle.
+. Antora applies the configured extensions and renders the site with the default UI and the Trento supplemental UI files.
 . The final site is written to `trento-docs-site/build/trento-docs-site-public`.
 
 == Generated Artifacts
@@ -71,7 +73,8 @@ The playbook loads these Antora extensions:
 * `@antora/collector-extension` - orchestrates the cleaning, cloning, scanning, and generated-file steps
 * `@sntke/antora-mermaid-extension` - renders Mermaid diagrams
 * `@antora/lunr-extension` - generates search index data
-* `./extensions/edit-url.cjs` - adds the `Edit this page` links used by the custom UI
+* `./extensions/edit-url.cjs` - adds the `Edit this page` links used by the UI
+* `./extensions/unpublish-partials.cjs` - keeps `trento/adoc/partials/` available for includes without publishing them as pages, in every version
 
 The `Edit URL Extension Workflow` document explains the custom extension logic in detail.
 
@@ -80,4 +83,4 @@ The `Edit URL Extension Workflow` document explains the custom extension logic i
 * The build requires network access because it clones upstream repositories during generation.
 * The docs hub includes both `HEAD` and `latest`, which is how the published site exposes the pre-release and current-release versions.
 * Component documentation is assembled into the site, but the source of truth remains the upstream repository.
-* UI source changes are not reflected in the site build until `trento-docs-site-ui/build/ui-bundle.zip` is rebuilt.
+* Changes to the Antora default UI are picked up automatically by the next build; Trento overrides live in `trento-docs-site/supplemental-ui/`.

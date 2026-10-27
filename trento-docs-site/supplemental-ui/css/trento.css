@@ -1,0 +1,357 @@
+/*
+ * SPDX-FileCopyrightText: SUSE LLC
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * Trento branding on top of the Antora default UI.
+ *
+ * Loaded right after the default css/site.css (see partials/head-styles.hbs).
+ * The default stylesheet ships with its CSS custom properties already resolved,
+ * so redefining a variable has no effect: every rule that depends on a value we
+ * change is restated here with the same selector, and therefore wins by order.
+ * Lengths use the default UI's 18px rem base, rounded like the rest of site.css.
+ *
+ * Trento values used below:
+ *   body font        "Lato", "Roboto", sans-serif
+ *   body font size   1.125em, 1.25em on desktop
+ *   navbar height    58px    -> 3.22222rem
+ *   toolbar height   45px    -> 2.5rem
+ *   doc width        1000px  -> 55.55556rem on desktop
+ *   link             #008646, #004624 on hover
+ *   navbar text      #999 (Trento grey), #4a4a4a for icons and the burger
+ */
+
+@font-face {
+  font-family: Lato;
+  font-style: normal;
+  font-weight: 400;
+  src:
+    url("../font/lato-latin-400-normal.woff2") format("woff2"),
+    url("../font/lato-latin-400-normal.woff") format("woff");
+}
+
+@font-face {
+  font-family: eos-icons;
+  font-weight: normal;
+  font-style: normal;
+  src:
+    url("../font/eos-icons.woff2") format("woff2"),
+    url("../font/eos-icons.woff") format("woff");
+}
+
+.eos-icons {
+  font-family: eos-icons, sans-serif;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  overflow-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizelegibility;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "liga";
+}
+
+/* base */
+
+html {
+  -webkit-font-smoothing: antialiased;
+  font-size: 1.125em;
+}
+
+@media screen and (width >= 1024px) {
+  html {
+    font-size: 1.25em;
+  }
+}
+
+body {
+  font-family: "Lato", "Roboto", sans-serif;
+}
+
+a:active {
+  background-color: transparent;
+}
+
+/* nav */
+
+.nav-container {
+  top: 3.22222rem;
+}
+
+.nav {
+  height: calc(100vh - 5.72222rem);
+}
+
+@media screen and (width >= 1024px) {
+  .nav {
+    top: 3.22222rem;
+    height: calc(100vh - 3.22222rem);
+  }
+}
+
+.nav-menu {
+  max-width: 30rem;
+  min-width: 0;
+}
+
+/* toolbar */
+
+.toolbar {
+  top: 3.22222rem;
+}
+
+/* toc */
+
+.toc.sidebar .toc-menu {
+  top: 5.72222rem;
+}
+
+.toc.sidebar .toc-menu ul {
+  max-height: calc(100vh - 8.22222rem);
+}
+
+.toc .toc-menu a:hover {
+  color: #008646;
+}
+
+.toc .toc-menu a.is-active {
+  border-left-color: #008646;
+}
+
+/* doc */
+
+@media screen and (width >= 1024px) {
+  .doc {
+    max-width: 55.55556rem;
+  }
+}
+
+.doc h3 {
+  font-size: 25px;
+}
+
+.doc h4 {
+  font-size: 23px;
+}
+
+.doc h5 {
+  font-size: 21px;
+}
+
+.doc h6 {
+  font-size: inherit;
+}
+
+.doc a {
+  color: #008646;
+}
+
+.doc a:hover {
+  color: #004624;
+}
+
+.doc .source-toolbox,
+.doc .conum[data-value] {
+  font-family: "Lato", "Roboto", sans-serif;
+}
+
+/* header */
+
+body {
+  padding-top: 3.22222rem;
+}
+
+.navbar {
+  background: #fff;
+  color: #999;
+  font-size: 0.8rem;
+  height: 3.22222rem;
+}
+
+.navbar-brand {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.navbar-brand .navbar-item {
+  color: #999;
+}
+
+.navbar-brand .navbar-item:first-child img {
+  max-height: 36px;
+  width: auto;
+  height: 36px;
+  display: block;
+  padding-right: 0.5rem;
+}
+
+#search-input {
+  font-size: 0.8rem;
+  border-radius: 0.35em;
+}
+
+.navbar-burger span {
+  background-color: #4a4a4a;
+}
+
+.navbar-item,
+.navbar-link {
+  color: inherit;
+  padding: 0.5rem 0;
+}
+
+.navbar-item img {
+  width: 1.33333rem;
+  height: 1.33333rem;
+  object-fit: contain;
+  vertical-align: middle;
+  margin-right: 0.5rem;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.navbar-link {
+  padding-right: 2.5em;
+}
+
+.navbar-dropdown .navbar-item small {
+  color: #999;
+}
+
+.search-icon button,
+.search-icon button:hover,
+.search-icon button:active {
+  color: #4a4a4a;
+  background: none;
+  border: none;
+}
+
+#search-close {
+  position: absolute;
+  right: 5%;
+  height: 48px;
+  width: 48px;
+  background: transparent;
+  border: none;
+  color: #4a4a4a;
+}
+
+@media screen and (width <= 768.5px) {
+  .navbar-brand .navbar-item.search {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+@media screen and (width <= 1023.5px) {
+  .navbar-menu {
+    max-height: calc(100vh - 3.22222rem);
+    text-align: center;
+    color: #999;
+  }
+
+  .navbar-menu a.navbar-item:hover,
+  .navbar-menu .navbar-link:hover {
+    background: #f0f0f0;
+  }
+
+  #search-wrapper {
+    position: absolute;
+    padding: 5%;
+    background-color: #fff;
+    left: 0;
+    right: 0;
+    top: 58px;
+    z-index: 99;
+    box-shadow: 0 8px 16px rgb(10 10 10 / 10%);
+  }
+
+  #search-input {
+    width: 100%;
+    font-size: 0.95rem;
+    padding: 10px 15px !important;
+  }
+
+  .hidden.medium {
+    display: none !important;
+  }
+}
+
+@media screen and (width >= 1024px) {
+  .navbar-item,
+  .navbar-link {
+    padding: 0.5rem;
+  }
+
+  .navbar-end > .navbar-item,
+  .navbar-end .navbar-link {
+    color: #999;
+  }
+
+  .navbar-end > a.navbar-item:hover,
+  .navbar-end .navbar-link:hover,
+  .navbar-end .navbar-item.has-dropdown:hover .navbar-link {
+    background: none;
+    color: #999;
+    filter: invert(14%) sepia(39%) saturate(748%) hue-rotate(121deg) brightness(20%) contrast(96%);
+  }
+
+  .navbar-end > a.navbar-item:last-child {
+    display: inline-flex;
+    align-items: center;
+    padding: 0 0.5rem;
+  }
+
+  .navbar-end > a.navbar-item:last-child img {
+    height: 1rem;
+    width: auto;
+  }
+
+  .navbar-dropdown a.navbar-item:hover {
+    background: #f0f0f0;
+  }
+
+  .hidden.large {
+    display: none !important;
+  }
+}
+
+/*
+ * Later changes in the default UI that are reverted to keep the site looking
+ * as it did. Drop a rule here to adopt the upstream behaviour.
+ */
+
+.breadcrumbs {
+  line-height: 1.35;
+}
+
+.doc .paragraph.lead > p {
+  font-size: 1rem;
+}
+
+.doc ul.checklist {
+  padding-left: 1.75rem;
+}
+
+.doc ul.checklist p > i.fa-check-square-o:first-child,
+.doc ul.checklist p > i.fa-square-o:first-child {
+  width: 1.25rem;
+  margin-left: -1.25rem;
+}
+
+@media screen and (width >= 769px) {
+  .navbar-brand .navbar-item.search {
+    margin-right: 0;
+  }
+}
+
+@media screen and (width >= 1024px) {
+  .navbar-brand .navbar-item.search {
+    padding-right: 0.5rem;
+  }
+}

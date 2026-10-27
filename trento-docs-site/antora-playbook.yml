@@ -14,8 +14,9 @@ content:
 
 ui:
   bundle:
-    url: ./../trento-docs-site-ui/build/ui-bundle.zip
+    url: https://gitlab.com/antora/antora-ui-default/-/jobs/artifacts/HEAD/raw/build/ui-bundle.zip?job=bundle-stable
     snapshot: true
+  supplemental_files: ./supplemental-ui
 
 output:
   dir: ./build/trento-docs-site-public
@@ -32,6 +33,7 @@ antora:
       index_latest_only: true
     - require: ./extensions/edit-url.cjs
       enabled: true
+    - require: ./extensions/unpublish-partials.cjs
 
 asciidoc:
   attributes:

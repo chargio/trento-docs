@@ -1,93 +1,47 @@
 = Antora Documentation Site UI
 
-This directory contains the customized UI bundle for the Trento documentation site, based on the https://gitlab.com/antora/antora-ui-default[Antora default UI].
-The Antora site assembly in `trento-docs-site/` consumes the generated UI bundle from this directory.
-Refer to the full upstream documentation at link:https://docs.antora.org/antora-ui-default/[Antora Default UI Documentation].
+The Trento documentation site uses the https://gitlab.com/antora/antora-ui-default[Antora default UI] with a small set of Trento customizations layered on top as https://docs.antora.org/antora/latest/playbook/ui-supplemental-files/[supplemental UI files].
+There is no UI project to build and no UI bundle to commit: Antora downloads the latest stable default UI bundle on every build and applies the files from `trento-docs-site/supplemental-ui/` over it.
+
+Both are configured in the `ui` key of `trento-docs-site/antora-playbook.yml`.
 
 == Project Structure
 
 [source]
 ----
-src/            # UI source files (layouts, partials, helpers)
-gulp.d/         # Gulp task implementations and task helpers
-preview-src/    # Demo content for local preview
-public/         # Output directory for preview site
-build/          # Build artifacts including ui-bundle.zip
-gulpfile.js     # Gulp tasks for building the UI
+trento-docs-site/supplemental-ui/
+├── css/trento.css                  # Trento branding, loaded after the default site.css
+├── font/                           # Lato and eos-icons (Roboto comes from the default UI)
+├── img/                            # Trento logos and icons
+├── js/trento.js                    # Mobile search toggle
+├── js/vendor/highlight.js          # highlight.js 11 with the languages used by the site
+├── layouts/default.hbs             # Default page title
+└── partials/
+    ├── breadcrumbs.hbs             # Keeps breadcrumbs untruncated
+    ├── footer-content.hbs          # No footer
+    ├── footer-scripts.hbs          # Loads js/trento.js
+    ├── head-icons.hbs              # Trento favicon
+    ├── head-styles.hbs             # Loads css/trento.css
+    └── header-content.hbs          # Trento header, navigation links and search
 ----
 
-=== Install dependencies
+A supplemental file replaces the file with the same path in the default UI bundle.
+New files, such as `css/trento.css`, are added to it.
 
-[source,sh]
-----
-npm install
-----
+== Customize the UI
 
-=== Supported build tasks
+* To change a template, copy the partial or layout from the https://gitlab.com/antora/antora-ui-default/-/tree/master/src[default UI sources] into `supplemental-ui/` and edit the copy.
+  Only override what you need, so improvements to the default UI keep flowing in.
+* To change styles, edit `css/trento.css`.
+  The default `site.css` is published with all CSS custom properties already resolved, so redefining a variable has no effect.
+  Restate the affected rule with the same selector instead; it wins because `trento.css` is loaded last.
+* Some later changes in the default UI are reverted to keep the site looking the same: the last section of `css/trento.css`, and the `data-truncation-length="-1"` attribute in `partials/breadcrumbs.hbs`, which turns off the truncation of long breadcrumbs.
+  Remove them to adopt the upstream behavior.
 
-[source,sh]
-----
-npx gulp --tasks-simple
-----
+== Preview Changes
 
-You should see:
-[source]
-----
-default          // Runs the default task, which maps to the publishable bundle flow
-clean            // Removes generated files and directories (e.g., build/, public/)
-lint             // Lints JavaScript and stylesheet source files
-format           // Applies formatting to source files using configured linters
-build            // Stages the UI assets used for bundling
-bundle           // Cleans, lints, builds, and creates the publishable UI bundle
-bundle:pack      // Creates a zip archive of the UI bundle as 'ui-bundle.zip' in the build/ folder
-preview          // Starts a local preview server using content in preview-src/
-preview:build    // Builds a static site for preview into the 'public/' directory
-----
-
-=== Develop and Preview Changes
-
-To continuously build and preview your UI as you make changes, run:
-
-[source,bash]
-----
-npx gulp preview
-----
-
-This starts a local development server using the content in `preview-src/`, allowing you to see updates live in the browser on port `5252`.
-
-[NOTE]
-====
-Use `npx gulp preview` when you are working only on the UI and want fast feedback on templates, styles, or helpers.
-This preview does not rebuild the docs hub automatically.
-====
-
-=== Build the UI Bundle
-
-When you're ready to package the UI for use in the actual documentation site, run:
-
-[source,bash]
-----
-npx gulp bundle
-----
-
-This command runs the full publishable UI flow and creates `build/ui-bundle.zip`.
-
-The Antora site in `trento-docs-site/` uses this bundle from `trento-docs-site-ui/build/ui-bundle.zip` in the playbook configuration.
-
-[IMPORTANT]
-====
-If you change the UI sources, you must rebuild the UI bundle and commit the updated `build/ui-bundle.zip`.
-
-Otherwise the previously generated bundle will still be used, and your UI changes will not be applied in the site build.
-====
-
-[NOTE]
-====
-If you preview the docs hub with `docker compose` or by running `npx antora`, the build consumes the checked-in UI bundle.
-Raw UI source changes are not visible there until `ui-bundle.zip` is rebuilt.
-====
-
-=== Customize the UI
+Supplemental files are applied by Antora itself, so the regular docs hub build shows UI changes directly.
+Use `docker compose up` or run `npx antora antora-playbook.yml` from `trento-docs-site/`, as described in the xref:trento-docs-site/README.adoc[docs hub README].
 
 To learn how to customize templates, partials, helpers, and other UI components, refer to the official Antora UI customization guide:
 

@@ -10,7 +10,6 @@ on:
     types: [opened, synchronize, reopened]
     paths:
       - 'trento-docs-site/**'
-      - 'trento-docs-site-ui/build/ui-bundle.zip'
       - '.github/workflows/build-page.yaml'
   workflow_dispatch:
   schedule:

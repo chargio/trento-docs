@@ -30,7 +30,7 @@ function applyEditUrls(contentCatalog) {
   const contentCatalogPages = contentCatalog.getPages();
   for (const file of contentCatalogPages) {
     // This data is used to set the edit url prop in the template.
-    // Link to hbs template https://github.com/trento-project/docs/blob/main/trento-docs-site-ui/src/partials/edit-this-page.hbs#L4
+    // Link to hbs template https://gitlab.com/antora/antora-ui-default/-/blob/master/src/partials/edit-this-page.hbs
     setEditUrl(file);
   }
 }
