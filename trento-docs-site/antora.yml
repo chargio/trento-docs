@@ -4,7 +4,7 @@
 name: ROOT
 title: Trento Documentation
 version: latest
-display_version: 'latest: 3.1'
+display_version: 'latest: 3.2'
 nav:
 - modules/user-guide/nav_user_guide.adoc
 - modules/developer/nav_developer.adoc
@@ -42,8 +42,13 @@ ext:
         into: modules/developer/partials
     # Trento user facing documentation from Trento docs repo https://github.com/trento-project/docs
       - dir: trento/adoc
-        files: '**/*.adoc'
+        files: ['**/*.adoc', '!partials/**']
         into: modules/user-guide/pages
+      # Partials are only included by other pages, never published on their own
+      - dir: trento/adoc/partials
+        files: '**/*.adoc'
+        into: modules/user-guide/pages/partials
+        private: true
       - dir: trento/images/src/png
         files: '**/*.png'
         into: modules/user-guide/images
