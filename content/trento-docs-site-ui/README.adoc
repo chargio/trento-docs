@@ -14,10 +14,8 @@ trento-docs-site/supplemental-ui/
 ├── font/                           # Lato and eos-icons (Roboto comes from the default UI)
 ├── img/                            # Trento logos and icons
 ├── js/trento.js                    # Mobile search toggle
-├── js/vendor/highlight.js          # highlight.js 11 with the languages used by the site
 ├── layouts/default.hbs             # Default page title
 └── partials/
-    ├── breadcrumbs.hbs             # Keeps breadcrumbs untruncated
     ├── footer-content.hbs          # No footer
     ├── footer-scripts.hbs          # Loads js/trento.js
     ├── head-icons.hbs              # Trento favicon
@@ -35,8 +33,7 @@ New files, such as `css/trento.css`, are added to it.
 * To change styles, edit `css/trento.css`.
   The default `site.css` is published with all CSS custom properties already resolved, so redefining a variable has no effect.
   Restate the affected rule with the same selector instead; it wins because `trento.css` is loaded last.
-* Some later changes in the default UI are reverted to keep the site looking the same: the last section of `css/trento.css`, and the `data-truncation-length="-1"` attribute in `partials/breadcrumbs.hbs`, which turns off the truncation of long breadcrumbs.
-  Remove them to adopt the upstream behavior.
+* Don't restate default rules just to undo upstream changes: the site follows the default UI, and `trento.css` only holds what Trento changes.
 
 == Preview Changes
 
