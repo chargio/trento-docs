@@ -33,7 +33,6 @@ antora:
       index_latest_only: true
     - require: ./extensions/edit-url.cjs
       enabled: true
-    - require: ./extensions/unpublish-partials.cjs
 
 asciidoc:
   attributes:

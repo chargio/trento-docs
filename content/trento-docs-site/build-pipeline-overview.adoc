@@ -38,7 +38,6 @@ The high-level build flow is:
 . `trento-docs-site/scripts/generate-components.nav.js` scans the fetched component repositories and generates `trento-docs-site/build/gen_navigation/nav_components.adoc`.
 . The generated navigation file is scanned into `modules/developer/partials`, where it is included by the developer navigation.
 . User-facing documentation from `trento/adoc/` and `trento/images/src/` is scanned into the `user-guide` module.
-  Partials under `trento/adoc/partials/` are scanned too, so that relative includes resolve, but they are not published as pages.
 . `trento-docs-site/scripts/generate-attributes-yaml.sh` converts `trento/adoc/generic-attributes.adoc` into an Antora attributes file under `trento-docs-site/build/adoc_variables/user-guide/`.
 . The root `README.adoc` and documentation under `content/` are scanned into the developer module.
 . The fetched upstream component repositories are scanned into per-component Antora modules such as `agent`, `web`, `mcp-server`, and `wanda`.
@@ -74,7 +73,6 @@ The playbook loads these Antora extensions:
 * `@sntke/antora-mermaid-extension` - renders Mermaid diagrams
 * `@antora/lunr-extension` - generates search index data
 * `./extensions/edit-url.cjs` - adds the `Edit this page` links used by the UI
-* `./extensions/unpublish-partials.cjs` - keeps `trento/adoc/partials/` available for includes without publishing them as pages, in every version
 
 The `Edit URL Extension Workflow` document explains the custom extension logic in detail.
 
