@@ -59,10 +59,13 @@ services:
     working_dir: /srv
     ports:
       - "${PORT:-3001}:3001"
+    # Mount trento/, not the build output: suse-daps-build deletes and recreates
+    # trento/build/SLES-SAP-trento, and a missing mount source stops the container
     volumes:
-      - ./trento/build/SLES-SAP-trento/html/SLES-SAP-trento:/srv:ro
+      - ./trento:/srv:ro
     command: >
-      bash -lc "npx --yes http-server /srv -c-1 -p 3001"
+      bash -lc "until [ -f /srv/build/SLES-SAP-trento/html/SLES-SAP-trento/index.html ]; do sleep 2; done;
+      npx --yes http-server /srv/build/SLES-SAP-trento/html/SLES-SAP-trento -c-1 -p 3001"
     depends_on:
       suse-daps-build:
         condition: service_completed_successfully
@@ -76,9 +79,10 @@ services:
     ports:
       - "${PORTPDF:-3002}:3002"
     volumes:
-      - ./trento/build/SLES-SAP-trento/:/srv:ro
+      - ./trento:/srv:ro
     command: >
-      bash -lc "npx --yes http-server /srv -c-1 -p 3002"
+      bash -lc "until [ -f /srv/build/SLES-SAP-trento/SLES-SAP-trento_en.pdf ]; do sleep 2; done;
+      npx --yes http-server /srv/build/SLES-SAP-trento -c-1 -p 3002"
     depends_on:
       suse-daps-build:
         condition: service_completed_successfully
